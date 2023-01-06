@@ -1,5 +1,5 @@
 # CSL-Project
-Project of Computer Structure and Language
+Project of Computer Structure and Language (Fall 2022)
 
 ## Team #1
 ### Team Members:
