@@ -5,6 +5,7 @@ Project of Computer Structure and Language (Fall 2022)
 ### Team Members:
 - Mohammad Parsa Bashari 400104812
 - Amirhossein Azizi 400105122
+- Farbod Haji Mohammad Ali 401011038
 
 ### Problems:
 1) Mohammad Parsa Bashari
