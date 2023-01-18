@@ -9,15 +9,15 @@ Project of Computer Structure and Language (Fall 2022)
 | Farbod Haji Mohammad Ali | 401011038 |
 
 ## Problems
-| Problem |  Assigned to   |     Done     | 
-|:-------:|:--------------:|:-------------|
-| 1 | Mohammad Parsa Bashari | <ul><li>- [ ] IBM</li><li>- [ ] 8086</li><li>- [x] MIPS</li></ul> |
-| 2 | Amirhossein Azizi | <ul><li>- [ ] IBM</li><li>- [ ] 8086</li><li>- [ ] MIPS</li></ul> |
-| 3 | Farbod Haji Mohammad Ali | <ul><li>- [ ] IBM</li><li>- [ ] 8086</li><li>- [ ] MIPS</li></ul> |
-| 4 | Mohammad Parsa Bashari | <ul><li>- [ ] IBM</li><li>- [ ] 8086</li><li>- [ ] MIPS</li></ul> |
-| 5 | Amirhossein Azizi | <ul><li>- [ ] IBM</li><li>- [ ] 8086</li><li>- [ ] MIPS</li></ul> |
-| 6 | Farbod Haji Mohammad Ali | <ul><li>- [ ] IBM</li><li>- [ ] 8086</li><li>- [ ] MIPS</li></ul> |
-| 7 | Mohammad Parsa Bashari | <ul><li>- [ ] IBM</li><li>- [ ] 8086</li><li>- [ ] MIPS</li></ul> |
-| 8 | Amirhossein Azizi | <ul><li>- [ ] IBM</li><li>- [ ] 8086</li><li>- [ ] MIPS</li></ul> |
-| 9 | Farbod Haji Mohammad Ali | <ul><li>- [ ] IBM</li><li>- [ ] 8086</li><li>- [ ] MIPS</li></ul> |
-| 10| Mohammad Parsa Bashari | <ul><li>- [ ] IBM</li><li>- [ ] 8086</li><li>- [ ] MIPS</li></ul> |
+| Problem |  Assigned to   |  IBM | 8086 | MIPS | 
+|:-------:|:--------------:|:----:|:----:|:----:|
+| 1 | Mohammad Parsa Bashari | :black_square_button: | :black_square_button: | :ballot_box_with_check: |
+| 2 | Amirhossein Azizi | :black_square_button: | :black_square_button: | :black_square_button: |
+| 3 | Farbod Haji Mohammad Ali | :black_square_button: | :black_square_button: | :black_square_button: |
+| 4 | Mohammad Parsa Bashari | :black_square_button: | :black_square_button: | :black_square_button: |
+| 5 | Amirhossein Azizi | :black_square_button: | :black_square_button: | :black_square_button: |
+| 6 | Farbod Haji Mohammad Ali | :black_square_button: | :black_square_button: | :black_square_button: |
+| 7 | Mohammad Parsa Bashari | :black_square_button: | :black_square_button: | :black_square_button: |
+| 8 | Amirhossein Azizi | :black_square_button: | :black_square_button: | :black_square_button: |
+| 9 | Farbod Haji Mohammad Ali | :black_square_button: | :black_square_button: | :black_square_button: |
+| 10| Mohammad Parsa Bashari | :black_square_button: | :black_square_button: | :black_square_button: |
