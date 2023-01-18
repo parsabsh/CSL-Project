@@ -11,7 +11,7 @@ Project of Computer Structure and Language (Fall 2022)
 ## Problems
 | Problem |  Assigned to   |     Done     | 
 |:-------:|:--------------:|:-------------|
-| 1 | Mohammad Parsa Bashari | <ul><li>- [ ] IBM</li><li>- [ ] 8086</li><li>- [ ] MIPS</li></ul> |
+| 1 | Mohammad Parsa Bashari | <ul><li>- [ ] IBM</li><li>- [ ] 8086</li><li>- [x] MIPS</li></ul> |
 | 2 | Amirhossein Azizi | <ul><li>- [ ] IBM</li><li>- [ ] 8086</li><li>- [ ] MIPS</li></ul> |
 | 3 | Farbod Haji Mohammad Ali | <ul><li>- [ ] IBM</li><li>- [ ] 8086</li><li>- [ ] MIPS</li></ul> |
 | 4 | Mohammad Parsa Bashari | <ul><li>- [ ] IBM</li><li>- [ ] 8086</li><li>- [ ] MIPS</li></ul> |
