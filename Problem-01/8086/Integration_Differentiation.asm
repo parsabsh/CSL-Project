@@ -14,10 +14,10 @@ pushfgpr   MACRO     ; push flags and general purpose registers
 ENDM
 
 popfgpr    MACRO     ; pop flags and general purpose registers
-    push    dx
-    push    cx
-    push    bx
-    push    ax    
+    pop     dx
+    pop     cx
+    pop     bx
+    pop     ax    
     popf
 ENDM
 
