@@ -20,12 +20,25 @@ popfgpr    MACRO     ; pop flags and general purpose registers
     popf
 ENDM
 
+cmpm       MACRO    first,second    ; compare two words in memory
+    push    ax
+    mov     ax,first
+    cmp     ax,second
+    pop     ax
+ENDM
+
 dataseg SEGMENT
-n       dw      ?
+n       dw      ?       ; input
+divisor dw      ?       ; used in chekcing for being prime
+number  dw      4       ; the even numbers to be tested (4 <= number <= n)
+isprime dw      0       ; a temp variable (0: not prime, 1: prime)
+a       dw      ?       ; to be find for every even "number" which a and number-a are prime
 equal   db      "=$" 
 plus    db      "+$"
 newl    db      0Dh,0Ah,'$'
 buffer  db      19 dup(0),'$'
+failed  db      "Goldbach conjecture failed!!!$"
+
 dataseg ENDS
 
 codeseg SEGMENT
@@ -33,14 +46,53 @@ codeseg SEGMENT
 
 start:  mov     ax,dataseg
         mov     ds,ax
-        mov     ah,9  
-        mov     ax,12345
-        call    outint
-        
-        
+        call    getint
+        mov     n,ax
+mainlp: mov     a,2         ; start from 2
+lop:    mov     ax,a        ; ax = a
+        call    isprm       ; check if a is prime
+        cmp     isprime,0
+        je      next
+        mov     ax,number   ; ax = number - a
+        sub     ax,a  
+        call    isprm       ; check if number - a is prime
+        cmp     isprime,0
+        je      next
+        jmp     print
+next:   add     a,1
+        cmpm    a,number
+        jl      lop
+        mov     dx,OFFSET failed ; print "Goldbach conjecture failed!!!"
+        mov     ah,9
+        int     21h                       
+nextn:  add     number,2
+        cmpm    number,n
+        jle     mainlp        
         mov     ax,4c00h
         int     21h  
          
+
+; check if the number in ax is prime and store the result in "isprime" variable
+isprm   PROC
+        cmp     ax,2        ; if ax == 2, it's prime
+        je      prm
+        mov     divisor,2
+prloop: push    ax
+        mov     dx,0
+        div     divisor
+        cmp     dx,0        ; if remainder is zero, then it's not prime
+        je      notprm
+        inc     divisor
+        cmp     divisor,ax
+        pop     ax
+        jl      prloop
+prm:    mov     isprime,1   ; is prime
+        ret
+notprm: mov     isprime,0   ; is not prime
+        pop     ax
+        ret    
+isprm   ENDP
+
          
 ; gets a positive integer from input and store it in ax    
 getint  PROC          
@@ -85,5 +137,25 @@ lopoi:  mov     dx,0
         ret
 outint  ENDP
 
+
+; print "{number}={a}+{number-a}\n"
+print:  mov     ax,number           ; number
+        call    outint
+        mov     dx,OFFSET equal     ; =
+        mov     ah,9
+        int     21h
+        mov     ax,a                ; a
+        call    outint
+        mov     dx,OFFSET plus
+        mov     ah,9
+        int     21h
+        mov     ax,number           ; number - a
+        sub     ax,a
+        call    outint
+        mov     dx,OFFSET newl      ; newline
+        mov     ah,9
+        int     21h
+        jmp     nextn
+        
 codeseg ENDS 
         end     start
