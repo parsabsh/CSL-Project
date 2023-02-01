@@ -64,3 +64,6 @@
 0
 0
 4
+
+Output:
+A A B B A C A A
