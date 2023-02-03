@@ -1,9 +1,9 @@
 .data
 n: .word 1
 m: .word 1
-mmod: .word 1
 
 pointer: .word 1
+temp_pointer: .word 1
 
 inp_n: .asciiz "input n: "
 inp_m: .asciiz "input m: "
@@ -31,10 +31,7 @@ syscall
 li $v0, 5
 syscall
 sw $v0, m
-li $t0,2
-div $v0,$t0
-mfhi $t0
-sw $t0,mmod
+
 
 lw $t0,n
 lw $t1,m
@@ -83,34 +80,43 @@ loop_input_matrix:
 
 lw $t0,n
 lw $t1,m
-mult $t0,$t1
-mflo $t2
-li $t0,4
-mult $t0,$t2
-mflo $t2
-lw $t3,pointer
-add $t2,$t2,$t3#points to end of array
-subi $t2,$t2,4
-lw $t3,m
-li $t0,1
-loop:
-lw $t1,($t2)
-add $t1,$t1,$t0
-sw $t1,($t2)
-li $t5,1
-sub $t0,$t5,$t0
-subi $t3,$t3,1
-subi $t2,$t2,4
-bne $t3,0,loop
-lw $t3,m
-lw $t4,mmod
-beq $t4,1,odd
-li $t5,1
-sub $t0,$t5,$t0
-odd:
-lw $t4,pointer
-subi $t4,$t4,4
-bne $t4,$t2,loop
+li $t2,0 #i index
+li $t3,0 #j index
+
+outter_loop:
+	
+	inner_loop:
+		mult $t2,$t1
+		mflo $t4
+		add $t4,$t4,$t3
+		li $t5,4
+		mult $t5,$t4
+		mflo $t4 #4(i*n+j)
+		lw $t5,pointer
+		add $t5,$t5,$t4
+		sw $t5,temp_pointer
+		lw $t5,($t5)
+		li $t6,2
+		div $t5,$t6
+		mfhi $t5
+		add $t7,$t2,$t3
+		div $t7,$t6
+		mfhi $t7
+		bne $t5,$t7,add_one
+		b end_of_inner_loop
+		add_one:
+		lw $t5,temp_pointer
+		lw $t6,($t5)
+		addi $t6,$t6,1
+		sw $t6,($t5)
+		end_of_inner_loop:
+		addi $t3,$t3,1
+		bne $t3,$t1,inner_loop
+		li $t3,0
+		addi $t2,$t2,1
+	bne $t2,$t0,outter_loop
+		
+
 
 jal print_matrix
 li $v0,10
