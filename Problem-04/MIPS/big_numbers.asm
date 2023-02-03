@@ -56,7 +56,7 @@ fcont:	blt	$t2,$zero,szero	# a digit of second number ( or zero if index < 0 )
 	j	scont
 szero:	li	$t7,0x30
 scont:	sub	$t6,$t6,0x30	# ascii to decimal digit
-	subi	$t7,$t7,0x30	# ascii to decimal digit
+	sub	$t7,$t7,0x30	# ascii to decimal digit
 	add	$t8,$t6,$t7	# t8 = first digit + second digit
 	add	$t8,$t8,$t5	# add carry
 	li	$t5,0		# carry = 0
@@ -74,7 +74,32 @@ chkend:	bgez 	$t1,notend	# if resutl is 0 and both indexes are negative, end add
 ###########################
 #       Subtraction       #
 ###########################
-sublng:	la	$v0,first
+sublng:	lw	$t1,fsize	# index in first word
+	lw	$t2,ssize	# index in second word
+	li	$t3,100		# index in result
+	li 	$t5,0		# borrow
+sublop:	sub	$t1,$t1,1	# decrement first index
+	sub	$t2,$t2,1	# decrement second index
+	sub	$t3,$t3,1	# decrement result index
+	blt	$t1,$zero,ends	# a digit of first number
+	lb	$t6,first($t1)	
+	blt	$t2,$zero,szeros# a digit of second number ( or zero if index < 0 )
+	lb	$t7,second($t2)
+	j	sconts
+szeros:	li	$t7,0x30
+sconts:	sub	$t6,$t6,0x30	# ascii to decimal digit
+	sub	$t7,$t7,0x30	# ascii to decimal digit
+	sub	$t8,$t6,$t7	# t8 = first digit - second digit
+	sub	$t8,$t8,$t5	# subtract borrow
+	li	$t5,0		# borrow = 0
+	bge	$t8,0,nobor	# if result digit > 0 : no borrow needed
+	add	$t8,$t8,10	# t8 = t8+10
+	li	$t5,1		# borrow = 1
+nobor:	add	$t8,$t8,0x30	# convert result digit to ascii
+	sb	$t8,res($t3)	# store the result digit in res[index]
+	b	sublop
+ends:	addi	$t3,$t3,1	# result index increment
+	j	mcont
 ###########################
 #      Multiplication     #
 ###########################
