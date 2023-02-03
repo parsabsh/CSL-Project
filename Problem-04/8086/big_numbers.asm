@@ -67,12 +67,30 @@ cont:   mov     ah,9
         
 addlng: mov     bx,100     ; result index
         clc
+        pushf
 adlop:  dec     si
         dec     di
         dec     bx
         cmp     si,0       ; a digit of first number (or zero if index < 0)
         jl      fzero
-        mov     al,          
+        mov     al,first[si]
+        jmp     fcont
+fzero:  mov     al,30h
+fcont:  cmp     di,0       ; a digit of second number (or zero if index < 0)
+        jl      szero
+        mov     dl,second[di]
+        jmp     scont
+szero:  mov     dl,30h
+scont:  sub     al,30h     ; ascii to decimal
+        sub     dl,30h     ; ascii to decimal
+        xor     ah,ah      ; extend to full register
+        xor     dh,dh      ; extend to full register
+        popf 
+        adc     ax,dx
+        pushf
+        cmp     ax,0
+        je      chkend
+notend: add                                
     
 input   PROC          
         xor     bx,bx
