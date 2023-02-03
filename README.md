@@ -16,7 +16,7 @@ Project of Computer Structure and Language (Fall 2022)
 | 3 | Farbod Haji Mohammad Ali | :black_square_button: | :black_square_button: | :black_square_button: |
 | 4 | Mohammad Parsa Bashari | :black_square_button: | :black_square_button: | :ballot_box_with_check: |
 | 5 | Amirhossein Azizi | :black_square_button: | :black_square_button: | :ballot_box_with_check: |
-| 6 | Farbod Haji Mohammad Ali | :black_square_button: | :black_square_button: |  :ballot_box_with_check: |
+| 6 | Farbod Haji Mohammad Ali | :black_square_button: | :ballot_box_with_check: |  :ballot_box_with_check: |
 | 7 | Mohammad Parsa Bashari | :ballot_box_with_check: | :ballot_box_with_check: | :ballot_box_with_check: |
 | 8 | Amirhossein Azizi | :black_square_button: | :black_square_button: | :ballot_box_with_check: |
 | 9 | Farbod Haji Mohammad Ali | :black_square_button: | :ballot_box_with_check: | :ballot_box_with_check: |
