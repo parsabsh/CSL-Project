@@ -34,7 +34,7 @@ ENDM
 dataseg SEGMENT 
 first   db      100 dup(0)
 second  db      100 dup(0)
-result  db      100 dup(0)
+result  db      100 dup(0),'$'
 press   db      "Press any key to continue... $"
 newl    db      0Dh,0Ah,'$'
 buffer  db      19 dup(0),'$'
@@ -56,6 +56,10 @@ start:  mov     ax,dataseg
         cmp     al,'-'
         je      sublng
 cont:   mov     ah,9
+        mov     dx,offset result
+        add     dx,bx           ; index of start of result
+        int     21h
+        newline
         mov     dx,offset press
         int     21h
         mov     ah,1
@@ -63,8 +67,9 @@ cont:   mov     ah,9
         mov     ax,4c00h
         int     21h        
 
-        
-        
+;;;;;;;;;;;;;;;;;;;;;;
+;      Addittion     ;
+;;;;;;;;;;;;;;;;;;;;;;           
 addlng: mov     bx,100     ; result index
         clc
         pushf
@@ -75,45 +80,96 @@ adlop:  dec     si
         jl      fzero
         mov     al,first[si]
         jmp     fcont
-fzero:  mov     al,30h
+fzero:  mov     al,0
 fcont:  cmp     di,0       ; a digit of second number (or zero if index < 0)
         jl      szero
         mov     dl,second[di]
         jmp     scont
-szero:  mov     dl,30h
-scont:  sub     al,30h     ; ascii to decimal
-        sub     dl,30h     ; ascii to decimal
-        xor     ah,ah      ; extend to full register
-        xor     dh,dh      ; extend to full register
-        popf 
-        adc     ax,dx
+szero:  mov     dl,0
+scont:  popf 
+        adc     al,dl
+        cmp     al,10
+        jl      nocar
+        sub     al,10      ; yekan of ax
+        stc                ; carry = 1
         pushf
-        cmp     ax,0
+        jmp     notend
+nocar:  clc
+        pushf
+        cmp     al,0
         je      chkend
-notend: add                                
-    
+notend: add     al,30h          ; decimal to ascii
+        mov     result[bx],al   ; store the result
+        jmp     adlop
+chkend: cmp     si,0
+        jnl     notend
+        cmp     di,0
+        jnl     notend
+        inc     bx
+        popf
+        jmp     cont                                         
+;;;;;;;;;;;;;;;;;;;;;;
+;     Subtraction    ;
+;;;;;;;;;;;;;;;;;;;;;;
+sublng: mov     bx,100     ; result index
+        clc                ; borrow = 0
+        pushf
+sublop: dec     si
+        dec     di
+        dec     bx
+        cmp     si,0       ; a digit of first number
+        jl      endsub
+        mov     al,first[si]
+        cmp     di,0       ; a digit of second number (or zero if index < 0)
+        jl      szeros
+        mov     dl,second[di]
+        jmp     sconts
+szeros: mov     dl,0
+sconts: popf 
+        sbb     al,dl
+        cmp     al,0
+        jge     nobor
+        add     al,10      
+        stc                ; borrow = 1
+        pushf
+        jmp     nends
+nobor:  clc
+        pushf
+nends:  add     al,30h          ; decimal to ascii
+        mov     result[bx],al   ; store the result
+        jmp     sublop
+endsub: inc     bx
+        popf
+        jmp     cont
+        
+        
+;;;;;;;;;;;;;;;;;;;
+;    Get Input    ;
+;;;;;;;;;;;;;;;;;;;    
 input   PROC          
         xor     bx,bx
 lop1:   mov     ah,1
         int     21h
         cmp     al,0Dh
-        je      endlpi
+        je      endlp1
         sub     al,'0'
         mov     first[bx],al
         inc     bx
         jmp     lop1
-        mov     si,bx
+endlp1: mov     si,bx
         xor     bx,bx
+        newline
 lop2:   mov     ah,1
         int     21h
         cmp     al,0Dh
-        je      endlpi
+        je      endlp2
         sub     al,'0'
         mov     second[bx],al
         inc     bx
         jmp     lop2
-        mov     di,bx                
-endlpi: ret
+endlp2: mov     di,bx                
+        newline
+        ret
 input   ENDP
 
 codeseg ENDS
