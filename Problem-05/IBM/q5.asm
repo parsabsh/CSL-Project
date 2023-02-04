@@ -27,7 +27,8 @@ READ	READCARD	INPUT,EOF
 		ST		2,N(3)
         LA      3,4(0,3) ;increase R3
         B       READ
-EOF		XR      3,3 index for first number
+EOF		ST      3,FN
+        XR      3,3 index for first number
         XR      2,2 index for second number
 LOOP    L       7,ARR(3)
         L       10,ARR(2)
@@ -39,13 +40,13 @@ LOOP    L       7,ARR(3)
         L       5,RESULT
         LA      5,1(0,5)
         ST      5,RESULT
-CONTINUE    LA  2,1(0,2)
-        L       5,N
+CONTINUE    LA  2,4(0,2)
+        L       5,FN
         CR      2,5
         BNE     LOOP
         XR      2,2
-        LA      3,1(0,3)
-        L       5,N
+        LA      3,4(0,3)
+        L       5,FN
         CR      3,5
         BNE     LOOP
         PRINTLIN    MSG,20
@@ -56,6 +57,7 @@ CONTINUE    LA  2,1(0,2)
 		BR		14
 
 * VARIABLES
+FN      DS      F
 N		DS		F
 ARR     DS      100F
 RESULT  DS      F
