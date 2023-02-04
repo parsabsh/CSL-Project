@@ -56,23 +56,23 @@ prspace    MACRO
 ENDM
 
 dataseg SEGMENT 
-n       dw      ?
-n2       dw      ?    
+n       dw      ?    
 nn       dw      ?
 i       dw      ?    
 j       dw      ? 
 tedad       dw      ?
 dn      dw      ?
+size    dw      ?
+result  dw       ?
 msg    db      "Enter the n: $"   
 msgsc    db      "Enter the tedad: $"
-msge    db       "Enter values in seperate lines: $",0Dh,0Ah,'$'
-
 nodes   dw      200 dup(0)
 color   dw      '  '
-colors  dw      200 dup(0)
-
+colors  dw      20 dup(0)
+msge    db       "Enter values in seperate lines: $",0Dh,0Ah,'$'
+space   db      " $"
 newl    db      0Dh,0Ah,'$'
-
+buffer  db      100 dup(0),'$'
 dataseg ENDS
          
          
@@ -121,43 +121,22 @@ start:  mov     ax,dataseg
         call    getint   
         newline
         mov tedad,ax ;get tedad
-        
-        
         mov bx,0
-        mov cx, 65
+        mov cx, 'A '
         mov colors[bx], cx
         mov bx,n
-        mov ax,1
         mov i,ax
-        mov ax,0
         mov j,ax
         
         
         for1:
-            
-            mov ax, i
-            mov bx, n
-            
-            cmp ax, bx
-            jbe end_for1
-            
-            mov color,65
+            mov color,'A'
             for2:
-                
-                mov ax, color
-                mov bx, 71
-                cmp ax, bx
-                jge end_for2
             
                 mov dx,1 ;;;flag
                 mov ax, 0
                 mov j, ax
                 for3:
-                
-                    mov ax, j
-                    mov bx, i
-                    cmp ax, bx
-                    jge end_for3
                 
                     mov ax, n
                     mov bx, i
@@ -166,18 +145,15 @@ start:  mov     ax,dataseg
                     add ax, bx
                     mov bx, 2
                     mul bx
-                    mov bx,ax
-                    mov ax, nodes[bx]
-                    mov bx, 49
-                    cmp ax, bx
+                    mov cx, nodes[ax]
+                    mov bx, 1
+                    cmp cx, bx
                     jne else3
                     
-                    mov bx, j
-                    mov ax,2
-                    mul bx
-                    mov ax, colors[bx]
+                    mov ax, j
+                    mov bx, colors[ax]
                     mov cx, color
-                    cmp ax, cx
+                    cmp bx, cx
                     je if3
                     
                     cmp bx, cx
@@ -186,7 +162,9 @@ start:  mov     ax,dataseg
                     if3:
                     
                     mov dx, 0
-                    jmp end_for3
+                    mov ax, i
+                    dec ax
+                    mov j, ax
                     
                     else3:
                     
@@ -197,8 +175,7 @@ start:  mov     ax,dataseg
                     mov ax, j
                     mov bx, i
                     cmp ax, bx
-                    jge for3
-                    end_for3:
+                    jne for3
                 
                 
                 mov ax, 1
@@ -209,10 +186,11 @@ start:  mov     ax,dataseg
                 jne else4
                 
                 if4:
-                    mov bx, i
-                    mov ax, color
-                    mov colors[bx], ax
-                    jmp end_for2
+                    mov ax, i
+                    mov bx, color
+                    mov colors[ax], bx
+                    mov bx, 'Z'
+                    mov color, bx
                 
                 else4:
             
@@ -222,9 +200,8 @@ start:  mov     ax,dataseg
                 
                 
                 mov bx,color
-                cmp bx,71
+                cmp bx,'['
                 jne for2
-                end_for2:
                 
                 
         
@@ -234,32 +211,23 @@ start:  mov     ax,dataseg
            mov i,ax
            
            mov ax,n
-           mov bx,i
+           mov i,bx
            cmp ax,bx
            jne for1
-           end_for1:
         
           
-        mov bx, 2
-        mov ax,n
-        mul bx
-        mov n2,ax
-        mov bx,0
-        
+        mov cx, 0
         for_output:
-          
+           mov bx, colors[cx]
            
-           mov dx,colors[bx]
-           mov ah,09h
+           mov dl,[bx]
+           mov ah,2
            int 21h
            
-              
+           inc cx
            
-           mov ax, n2
-           
-           inc bx
-           inc bx
-           cmp ax, bx
+           mov bx, n
+           cmp cx, bx
            jne for_output 
         
         
